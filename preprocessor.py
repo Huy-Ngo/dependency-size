@@ -1,9 +1,10 @@
 from urllib3 import PoolManager, disable_warnings
 disable_warnings()
 import json
+import pprint
 import requirements
 
-def get_pkg_info(pkg_name, pkg_ver = ''):
+def request_pkg_info(pkg_name, pkg_ver = ''):
     """Get json response from pypi
 
     Parameters:
@@ -25,28 +26,6 @@ def get_pkg_info(pkg_name, pkg_ver = ''):
     return r_json
 
 
-def parse_require_dist(require_dist):
-    """Read f'{pkg_name}{boole_operator}{pkg_ver}'
-    example: pandas==1.1.5
-    or read f{pkg_name} ({bool_operator}{pkgver})
-    example: pandas (>=1.15)
-
-    Parameters:
-        require_dist : str
-
-    Returns:
-        pkg_name : str
-        pkg_ver : str
-    """
-    pkg_name = next(requirements.parse(require_dist)).name
-    pkg_specs = next(requirements.parse(require_dist)).specs
-    if len(pkg_specs) == 0:
-        return (pkg_name, '')
-    else:
-        # This is right only for the case == and >= or <=
-        return (pkg_name, pkg_specs[0][1])
-
-
 def get_basic_info(pkg_info, filename='', requires_format=True):
     """Get basic information such as name, requires_dist, size
     from what get_pkg_info() returns
@@ -63,8 +42,9 @@ def get_basic_info(pkg_info, filename='', requires_format=True):
     basic_info['name'] = pkg_info['info']['name']
 
     if requires_format:
-        basic_info['requires_dist'] = [parse_require_dist(dist)
-        for dist in pkg_info['info']['requires_dist']]
+        basic_info['requires_dist'] = [(ite.name, ite.specs) for ite in
+        requirements.parse("\n".join(pkg_info['info']['requires_dist']))]
+
     else:
         basic_info['requires_dist'] = pkg_info['info']['requires_dist']
 
@@ -76,3 +56,13 @@ def get_basic_info(pkg_info, filename='', requires_format=True):
                 basic_info['size'] = url_info['size']
 
     return basic_info
+
+
+def lazy_get_pkg(pkg_name, pkg_ver = '', filename='', requires_format=True):
+    return get_basic_info(request_pkg_info(pkg_name, pkg_ver),
+                                            filename, requires_format)
+
+
+if __name__ == '__main__':
+    pkg_info = lazy_get_pkg('urllib3')
+    pprint.PrettyPrinter(indent=2).pprint(pkg_info)
