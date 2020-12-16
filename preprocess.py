@@ -28,7 +28,7 @@ def request_pkg_info(pkg_name, pkg_ver = ''):
 
 def get_basic_info(pkg_info, filename='', requires_format=True):
     """Get basic information such as name, requires_dist, size
-    from what get_pkg_info() returns
+    from what request_pkg_info() returns
 
     Parameters:
         pkg_info : json/dict
@@ -37,6 +37,15 @@ def get_basic_info(pkg_info, filename='', requires_format=True):
 
     Returns:
         json/dict
+
+    Notes:
+        For `requires_dist` key, it is a list of tuples.
+        Each tuple is a requirement of package.
+        First element of that tuple is pkg_name
+        Second element of that tuple is a list of conditions as tuples.
+
+    Examples:
+        Try to run this file and see the output in stdout.
     """
     basic_info = {}
     basic_info['name'] = pkg_info['info']['name']
