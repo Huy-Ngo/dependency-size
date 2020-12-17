@@ -50,7 +50,7 @@ def get_basic_info(pkg_info, filename='', requires_format=True):
     basic_info = {}
     basic_info['name'] = pkg_info['info']['name']
 
-    if requires_format:
+    if requires_format and pkg_info['info']['requires_dist'] is not None:
         basic_info['requires_dist'] = [(ite.name, ite.specs) for ite in
         requirements.parse("\n".join(pkg_info['info']['requires_dist']))]
 
