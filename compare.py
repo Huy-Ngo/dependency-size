@@ -1,8 +1,10 @@
 from preprocess import request_pkg_info
-
-from preprocess import request_pkg_info
 from pprint import PrettyPrinter
 
+# TODO
+# Handle the case that the conditions are NOT overlap
+# Handle the case `==`
+# Remove this todo
 def get_possile_pkg_by(pkg_name, conditions):
     """Get possible packages by a list of conditions.
 
@@ -12,9 +14,6 @@ def get_possile_pkg_by(pkg_name, conditions):
 
     Returns:
         list
-
-    Examples:
-        Rum this file
 
     Warning:
         This function is right for the case that the conditions overlap.
@@ -44,7 +43,9 @@ def get_possile_pkg_by(pkg_name, conditions):
 
     return [(pkg_name, pkg_ver) for pkg_ver in releases]
 
-
+# TODO
+# Handle the case that versions are not in the releases
+# Remove this todo
 def pkg_ver_compare(pkg_name, ver_1, ver_2):
     """Compare two versions of a package.
 
@@ -59,7 +60,7 @@ def pkg_ver_compare(pkg_name, ver_1, ver_2):
 
     Warnings:
         This function is right for the case that both versions
-        do exist in releases
+        do EXIST in releases
     """
     releases = list(request_pkg_info(pkg_name)['releases'].keys())
     if releases.index(ver_1) >= releases.index(ver_2):
