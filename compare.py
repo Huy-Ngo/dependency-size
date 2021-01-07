@@ -3,7 +3,6 @@ from pprint import PrettyPrinter
 
 # TODO
 # Handle the case that the conditions are NOT overlap
-# Handle the case `==`
 # Remove this todo
 def get_possile_pkg_by(pkg_name, conditions):
     """Get possible packages by a list of conditions.
@@ -23,8 +22,8 @@ def get_possile_pkg_by(pkg_name, conditions):
         if condi[1] not in releases:
             continue
         else:
-            # if condi[0] == '==':
-            #     possible_vers.append(condi[1])
+            if condi[0] == '==':
+                possible_vers.append(condi[1])
 
             if condi[0] == '<':
                 releases = releases[:releases.index(condi[1])]
