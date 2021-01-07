@@ -11,11 +11,11 @@ Package managers such as pip or apt usually inform the user the total disk space
 ### Specification
 
 - Input: dependency graph, existing packages, package to be installed
-- Output: the extra disk space needed
+- Output: the extra disk space needed 
 
 ### Assumptions
 
-This project assumes the user have all Python version needed on their machine. Moreover, it assumes all packages are distributed to any platforms and architecture. This would specify which package release the user should install, that is, `none-any`.
+This project assumes the user is using a GNU/Linux distribution on a x86_64 machine, and have all Python version needed on their machine. This would specify which package release the user should install, that is, `manylinux1_x86_64` if it is released, else `sdist`.
 
 ### Dataset
 
