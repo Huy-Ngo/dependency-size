@@ -51,8 +51,9 @@ def get_basic_info(pkg_info, filename='', requires_format=True):
     basic_info['name'] = pkg_info['info']['name']
 
     if requires_format and pkg_info['info']['requires_dist'] is not None:
+        req_dist = [ite for ite in pkg_info['info']['requires_dist'] if 'extra ' not in ite]
         basic_info['requires_dist'] = [(ite.name, ite.specs) for ite in
-        requirements.parse("\n".join(pkg_info['info']['requires_dist']))]
+        requirements.parse("\n".join(req_dist))]
 
     else:
         basic_info['requires_dist'] = pkg_info['info']['requires_dist']
@@ -73,5 +74,5 @@ def lazy_get_pkg(pkg_name, pkg_ver = '', filename='', requires_format=True):
 
 
 if __name__ == '__main__':
-    pkg_info = lazy_get_pkg('urllib3')
+    pkg_info = lazy_get_pkg('requests')
     pprint.PrettyPrinter(indent=2).pprint(pkg_info)
