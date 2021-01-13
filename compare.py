@@ -40,7 +40,7 @@ def get_possile_pkg_by(pkg_name, conditions):
             if condi[0] == '!=':
                 releases.pop(releases.index(condi[1]))
 
-    return [(pkg_name, pkg_ver) for pkg_ver in releases]
+    return (pkg_name, releases)
 
 # TODO
 # Handle the case that versions are not in the releases
